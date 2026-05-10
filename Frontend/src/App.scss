@@ -1,0 +1,50 @@
+@import url("../src/features/auth/style/auth.scss");
+
+:root {
+  /* Backgrounds */
+  --bg: #ced8e2; /* soft off-white */
+  --surface: #ffffff; /* cards, containers */
+
+  /* Text */
+  --text: #0f172a; /* strong readable */
+  --text-muted: #64748b; /* secondary text */
+
+  /* Brand / Accent */
+  --primary: #6366f1; /* soft indigo (professional) */
+  --primary-hover: #4f46e5;
+
+  /* Borders & UI */
+  --border: #e2e8f0;
+}
+
+.dark {
+  /* Backgrounds */
+  --bg: #0f172a; /* deep blue-gray */
+  --surface: #1e293b;
+
+  /* Text */
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+
+  /* Brand / Accent (same identity, slightly brighter) */
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+
+  /* Borders */
+  --border: #334155;
+}
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+button {
+  padding: 0.3rem;
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: var(--primary-hover);
+}
