@@ -1,53 +1,40 @@
 import React,{useState} from 'react'
 import useTasks from '../hooks/useTask'
+import AddTask from '../UI/AddTask'
+import { useContext } from 'react'
+import { AuthContext } from '../../auth/auth.context'
 
 // task,description,status,priority, userId
 
 const Task = () => {
-    const [taskName, setTaskName] = useState("");
-    const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("Pending");
-    const [priority, setPriority] = useState("medium");
-    const { handleAddTask } = useTasks();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const task = { taskName, description, status, priority };
-        console.log(task);
-        
-        
-        try {
-            await handleAddTask(taskName, description, status, priority);
-        } catch (error) {
-            console.error('Error adding task:', error);
-        }
-    };
+    
+    
+// on click of add task button, a form will open to add task details and on submit the task will be added to the list of tasks
+    const [showForm, setShowForm] = useState(false);
+    const { tasksList } = useTasks()
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="taskName">Task Name</label>
-                <input type="text" id='taskName' name='taskName' placeholder='Task Name' required />
+            <button onClick={() => setShowForm(!showForm)}>Add Task</button>
 
-                <label htmlFor="description">Description</label>
-                <textarea id='description' name='description' placeholder='Task Description'></textarea>
+            {showForm && <AddTask />}
+            <h1>Tasks List</h1>
+            {tasksList.length === 0 ? (
+                <p>No tasks available</p>
+            ) : (
+                <ul>
+                    {tasksList.map((task) => (
+                        <li key={task._id}>
+                            <h3>{task.task}</h3>
+                            <p>{task.description}</p>
+                            <p>Status: {task.status}</p>
+                            <p>Priority: {task.priority}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
-                <label htmlFor="status">Status</label>
-                <select id='status' name='status'>
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                </select>
 
-                <label htmlFor="priority">Priority</label>
-                <select id='priority' name='priority'>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-
-                <button type='submit'>Add Task</button>
-            </form>
 
     </>
   )

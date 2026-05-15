@@ -3,21 +3,26 @@ import { useState } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import FormInput from "../UI/FormInput";
+import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const Register = () => {
   const { handleRegister } = useAuth();
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let userData = {name, email, password};
-    console.log("Name:", name ,"Email:", email, "Password:", password);
+    let userData = {name, username, email, password};
+    console.log("Name:", name, "Username:", username, "Email:", email, "Password:", password);
 
-    const result = await handleRegister(name, email, password);
+    const result = await handleRegister(name, username, email, password);
     console.log("Registration response:", result);
 
     if (!result.success) {
@@ -25,6 +30,8 @@ const Register = () => {
     
     } else {
     setError("");
+      // return <Navigate to="/home" />;
+      navigate("/home");
     }
 
   };
@@ -41,6 +48,16 @@ const Register = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        
+        <div>
+          <FormInput
+            label="Username:"
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
