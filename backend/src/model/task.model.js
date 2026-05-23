@@ -5,14 +5,14 @@ const TaskSchema = new Schema(
     task: {
       type: String,
       required: [true, "Task Name is require"],
-      minlength: [3, "Task Name must be at least 3 characters"],
+      minlength: [1, "Task Name must be at least 1 characters"],
       maxlength: [50, "Task Name must be less than 50 characters"],
       trim: true,
     },
     description: {
       type: String,
       default: "",
-      maxlength: [500, "Description must be less than 500 characters"],
+      maxlength: [1000, "Description must be less than 1000 characters"],
       trim: true,
     },
     status: {
@@ -31,6 +31,7 @@ const TaskSchema = new Schema(
       type: String,
       enum: ["low", "medium", "high"],
       default: "medium",
+      lowercase: true,
     },
   },
   { timestamps: true, timeseries: true },

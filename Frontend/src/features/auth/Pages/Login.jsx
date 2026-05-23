@@ -1,60 +1,69 @@
-import React from 'react'
-import { useState } from 'react'
-import axios from 'axios'
-import useAuth from '../hooks/useAuth'
-import FormInput from '../UI/FormInput'
-import { Navigate } from 'react-router'
-import { useNavigate } from 'react-router'
-
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import FormInput from "../UI/FormInput";
+import Button from "../../../UI/Button";
 
 const Login = () => {
-    const { handleLogin } = useAuth()
-    const [email, setEmail] = useState("")
-    const [Password, setPassword] = useState("")
-    const navigate = useNavigate()
-    const [error, setError] = useState("")
+  const { handleLogin } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-    const handleSubmit = async(e) => {
-        e.preventDefault()
-        console.log("Email:", email)
-        console.log("Password:", Password)
-        
-        const result = await  handleLogin(email, Password)
-        if (!result.success) {
-            // Handle login failure
-            console.error("Login failed:", result.message);
-            setError(result.message);
-        }
-        else {
-            navigate("/home")
-        }
-        
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await handleLogin(email, password);
+    if (!result.success) {
+      setError(result.message);
+    } else {
+      setError("");
+      navigate("/home");
     }
-   
-    
+  };
 
   return (
-    <>
-    <div className='auth-container'>
-        <h1>Login</h1>
+    <section className="page-section">
+      <div className="auth-container">
+        <div className="page-card">
+          <h1>Login</h1>
+          <p className="page-description">
+            Sign in and manage your tasks with a clean, simple workflow.
+          </p>
 
-
-        <form onSubmit={handleSubmit}> 
-            <div>
-                
-                <FormInput label="Email:" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <FormInput
+                label="Email"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <div>
-                <FormInput label="Password:" type="password" id="password" value={Password} onChange={(e) => setPassword(e.target.value)} />
+            <div className="form-row">
+              <FormInput
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="/register">Register here</a></p>
-    </div>
-    //error handling and loading state can be added later
-    <p>{error}</p>
-  </>
-    )
-}
+            <Button type="submit">Login</Button>
+          </form>
 
-export default Login
+          <p>
+            Don&apos;t have an account?{" "}
+            <Link to="/register">Register here</Link>
+          </p>
+
+          {error && <div className="alert">{error}</div>}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Login;

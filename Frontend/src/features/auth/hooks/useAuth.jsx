@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../auth.context";
+import { AuthContext } from "../auth.context.js";
 import { registerUser, loginUser } from "../services/auth.api";
 
 const useAuth = () => {
@@ -14,7 +14,7 @@ const useAuth = () => {
       const response = await registerUser(name, username, email, password);
       const userData = response.user || response.User;
       setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
 
       return { success: true };
     } catch (err) {
@@ -32,7 +32,7 @@ const useAuth = () => {
       const response = await loginUser(email, password);
       const userData = response.user || response.User;
       setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
       return { success: true };
     } catch (error) {
       console.error("Login failed:", error);
