@@ -1,4 +1,4 @@
-const TaskModel = require("../model/Task.model")
+const TaskModel = require("../model/task.model.js")
 
 
 async function AddTask(req,res) {
