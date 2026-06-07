@@ -11,10 +11,12 @@ const useAuth = () => {
     setLoading(true);
 
     try {
-      const response = await registerUser(name, username, email, password);
+      const payload = { name, username, email, password };
+      const response = await registerUser(payload);
       const userData = response.user || response.User;
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
+      if (response.token) localStorage.setItem("token", response.token);
 
       return { success: true };
     } catch (err) {
@@ -29,10 +31,12 @@ const useAuth = () => {
   const handleLogin = async (email, password) => {
     setLoading(true);
     try {
-      const response = await loginUser(email, password);
+      const payload = { email, password };
+      const response = await loginUser(payload);
       const userData = response.user || response.User;
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
+      if (response.token) localStorage.setItem("token", response.token);
       return { success: true };
     } catch (error) {
       console.error("Login failed:", error);

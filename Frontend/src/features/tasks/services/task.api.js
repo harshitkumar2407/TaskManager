@@ -1,7 +1,8 @@
 import axios from "axios";
 import { AuthContext } from "../../auth/auth.context.js";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL || "https://taskmanager-1-30xf.onrender.com";
 const api = axios.create({
   baseURL: `${BACKEND_URL}/api/task`,
   withCredentials: true,

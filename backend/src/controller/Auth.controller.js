@@ -32,11 +32,23 @@ async function RegisterUser(req, res) {
 
     console.log(name, email, username, password);
 
-    res.cookie("token", token);
-    res.cookie("name", user.name);
-    res.cookie("email", user.email);
-    res.cookie("username", user.username);
-    res.cookie("id", user._id);
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      // consider setting `domain` in production if needed
+    };
+
+    res.cookie("token", token, cookieOptions);
+    // set non-httpOnly cookies for user info so client JS can read them if desired
+    const publicCookieOptions = {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+    };
+    res.cookie("name", user.name, publicCookieOptions);
+    res.cookie("email", user.email, publicCookieOptions);
+    res.cookie("username", user.username, publicCookieOptions);
+    res.cookie("id", user._id, publicCookieOptions);
 
     console.log("6 ✅");
 
@@ -77,10 +89,19 @@ async function LoginUser(req, res) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETS, {
       expiresIn: "1h",
     });
-    res.cookie("token", token);
-    res.cookie("name", user.name);
-    res.cookie("email", user.email);
-    res.cookie("id", user._id);
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+    };
+    res.cookie("token", token, cookieOptions);
+    const publicCookieOptions = {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+    };
+    res.cookie("name", user.name, publicCookieOptions);
+    res.cookie("email", user.email, publicCookieOptions);
+    res.cookie("id", user._id, publicCookieOptions);
 
     res.status(200).json({
       message: "Login Successfull",
